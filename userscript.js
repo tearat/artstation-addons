@@ -52,7 +52,6 @@
     const statDiv = document.createElement('div')
     const viewsToLikeConversion = Math.floor((totalLikes / totalViews) * 100)
     const viewsToCommentConversion = Math.floor((totalComments / totalViews) * 100)
-    statDiv.innerHTML += `<h2>General statistics:</h2>`
     statDiv.innerHTML += `Views: ${totalViews} <br> Likes: ${totalLikes} <br> Comments: ${totalComments} <br>`
     statDiv.innerHTML += `Views-to-like conversion: ${viewsToLikeConversion}% <br> Views-to-comment conversion: ${viewsToCommentConversion}% <br>`
 
@@ -83,6 +82,8 @@
         )
         .join(', ') +
       `<br>`
+    statDiv.style.paddingLeft = '15px'
+    statDiv.style.borderLeft = '4px solid #f0ad4e'
 
     portfolioContentNode.insertBefore(statDiv, projectListNode)
   }
