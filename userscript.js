@@ -46,6 +46,7 @@
     let mostViewed = [...arts.sort((a, b) => b.views - a.views).slice(0, 5)]
     let mostLiked = [...arts.sort((a, b) => b.likes - a.likes).slice(0, 5)]
     let mostCommented = [...arts.sort((a, b) => b.comments - a.comments).slice(0, 5)]
+    let mostConverted = [...arts.sort((a, b) => b.conversion - a.conversion).slice(0, 5)]
 
     const portfolioContentNode = document.getElementsByClassName('portfolio-content')[0]
     const projectListNode = document.getElementsByClassName('project-list')[0]
@@ -54,6 +55,7 @@
     const viewsToCommentConversion = Math.floor((totalComments / totalViews) * 100)
     statDiv.innerHTML += `Views: ${totalViews} <br> Likes: ${totalLikes} <br> Comments: ${totalComments} <br>`
     statDiv.innerHTML += `Views-to-like conversion: ${viewsToLikeConversion}% <br> Views-to-comment conversion: ${viewsToCommentConversion}% <br>`
+    statDiv.innerHTML += `<br>`
 
     statDiv.innerHTML +=
       `Most viewed arts: ` +
@@ -82,6 +84,16 @@
         )
         .join(', ') +
       `<br>`
+    statDiv.innerHTML +=
+      `Most view-to-like converted arts: ` +
+      mostConverted
+        .map(
+          (art) =>
+            `<a href='https://www.artstation.com/artwork/${art.link}' target='_blank'>${art.title}</a> (${art.conversion}%)`
+        )
+        .join(', ') +
+      `<br>`
+
     statDiv.style.paddingLeft = '15px'
     statDiv.style.borderLeft = '4px solid #f0ad4e'
 
