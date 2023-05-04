@@ -23,7 +23,7 @@
     const title = art.getElementsByClassName('project-title')[0].innerHTML
     const link = art.getElementsByClassName('project-link')[0].getAttribute('href').split('/')[3]
     const meta = art.getElementsByClassName('project-meta')[0]
-    const views = parseNumber(meta.childNodes[0].innerHTML)
+    const views = meta.childNodes[0] ? parseNumber(meta.childNodes[0].innerHTML) : 1 // prevents dividing by zero
     const likes = meta.childNodes[1] ? parseNumber(meta.childNodes[1].innerHTML) : 0
     const comments = meta.childNodes[2] ? parseNumber(meta.childNodes[2].innerHTML) : 0
     const conversion = Math.floor((likes / views) * 100)
@@ -38,7 +38,7 @@
     }
   }
 
-  function renderStats(arts) {
+  function renderGeneralStats(arts) {
     const totalViews = arts.reduce((acc, art) => acc + art.views, 0)
     const totalLikes = arts.reduce((acc, art) => acc + art.likes, 0)
     const totalComments = arts.reduce((acc, art) => acc + art.comments, 0)
@@ -87,12 +87,7 @@
     portfolioContentNode.insertBefore(statDiv, projectListNode)
   }
 
-  function addConversions() {
-    const projectNodes = document.getElementsByClassName('project-inner')
-    const arts = []
-    for (var n = 0; n < projectNodes.length; n++) {
-      arts.push(extractArtData(projectNodes[n]))
-    }
+  function addConversions(arts) {
     for (var i = 0; i < arts.length; i++) {
       const art = arts[i]
       const newChild = document.createElement('div')
@@ -101,10 +96,15 @@
       newChild.style.color = 'limegreen'
       art.meta.appendChild(newChild)
     }
-    renderStats(arts)
   }
 
-  window.addEventListener('load', (event) => {
-    addConversions()
+  window.addEventListener('load', () => {
+    const projectNodes = document.getElementsByClassName('project-inner')
+    const arts = []
+    for (var n = 0; n < projectNodes.length; n++) {
+      arts.push(extractArtData(projectNodes[n]))
+    }
+    addConversions(arts)
+    renderGeneralStats(arts)
   })
 })()
